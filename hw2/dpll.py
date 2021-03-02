@@ -47,7 +47,7 @@ def read_cnf(path, has2spaces=False):
     
 def handle_pure_literals(cnf):
     """
-    Return all pure literals in the cnf
+    Find all pure literals in the CNF and simplify.
     """
     pure = dict()
     for clause in cnf:
@@ -66,7 +66,7 @@ def handle_pure_literals(cnf):
 
 def handle_unit_clauses(cnf):
     """
-    Return all unit clauses in cnf.
+    Find all unit clauses in CNF and simplify.
     """
     units = set()
     for clause in cnf:
@@ -95,6 +95,7 @@ def dpll(cnf):
     if len(cnf) == 0: return True 
     for clause in cnf:
         if len(clause) == 0: return False 
+    #apply heuristics
     cnf = handle_pure_literals(cnf)
     print_cnf(cnf, "after handling pure lits")
     cnf = handle_unit_clauses(cnf)
@@ -106,8 +107,7 @@ def dpll(cnf):
             opp_l = Literal(ref=l).opposite()
             res = dpll(simplify(cnf, l)) or dpll(simplify(cnf, opp_l))
             if res: return True #found a satisfiable assignment
-    #none of the available literals were satisfiable
-    return False
+    return False    #none of the available literals were satisfiable
 
 
     
