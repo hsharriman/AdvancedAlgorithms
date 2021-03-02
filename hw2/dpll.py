@@ -102,8 +102,7 @@ def dpll(cnf):
     print_cnf(cnf, "after unit clauses")
     for clause in cnf:
         for l in clause:
-            #pick first available clause
-            print("picking clause: ", l)
+            print("picking clause: ", l)    #pick first available clause
             opp_l = Literal(ref=l).opposite()
             res = dpll(simplify(cnf, l)) or dpll(simplify(cnf, opp_l))
             if res: return True #found a satisfiable assignment
